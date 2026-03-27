@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('prix', 8, 2)->default(0);
             $table->tinyInteger('disponible')->default(1);
             $table->integer('quantite')->default(0); 
-            $table->foreignId('auteur_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('auteur_id')->constrained('auteurs')->onDelete('cascade');
             $table->timestamps();
 
         });

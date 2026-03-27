@@ -34,11 +34,11 @@ class LivreController extends Controller
         ]);
        
         Livre::create($request->all());
-        // return view('livres.index');
 
         return redirect()->route('livres.index')->with('success', 'Livre ajouter avec succès!');
     }
 
+    //supprimer un livre
     public function destroy($id){
         $livre=Livre::findOrFail($id);
         $livre->delete();
@@ -46,11 +46,13 @@ class LivreController extends Controller
         return redirect()->route('livres.index')->with('success','livre supprimer!!');
     }
 
+    //view update
     public function edit($id){
         $livres=Livre::findOrFail($id);
         return view('livres.edit',compact('livres'));
     }
 
+    //update dans db
     public function update(Request $request ,$id){
         $request->validate([
             'titre' => 'required|string|max:255',
@@ -71,6 +73,7 @@ class LivreController extends Controller
         
     }
 
+    //get un livre specifique
     public function show($id){
         $livre=Livre::findOrFail($id);
         return view('livres.show',compact('livre'));

@@ -20,4 +20,9 @@ class Livre extends Model
         'quantite', 
         'auteur_id'       
     ];
+
+    public function auteur()
+    {
+        return $this->belongsTo(Auteur::class);
+    }
 }
