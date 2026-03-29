@@ -4,15 +4,21 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LivreController;
 use App\Http\Controllers\AuteurController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+   ->name('dashboard')
+   ->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     //profile
@@ -37,7 +43,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/auteurs/{id}/edit', [AuteurController::class, 'edit'])->name('Auteurs.edit');
     Route::put('/Auteurs/{id}', [AuteurController::class, 'update'])->name('Auteurs.update');
     Route::delete('/auteurs/{id}', [AuteurController::class, 'destroy'])->name('Auteurs.destroy');
+
+
 });
+
+
+Route::patch('/users/{user}/toggle', [UserController::class, 'toggleActive'])
+    ->name('users.toggle')
+    ->middleware('auth');
+
+
+
 
 require __DIR__.'/auth.php';
 
