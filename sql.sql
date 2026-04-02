@@ -96,3 +96,6 @@ INSERT INTO livres (titre, description, type, disponible, auteur_id, created_at,
 ('Germinal', 'Roman social sur les mineurs', 'premium', 1, 3, NOW(), NOW()),
 ('Monte Cristo', 'Histoire de vengeance', 'premium', 0, 1, NOW(), NOW());
 DESCRIBE livres;
+
+update users set password= password('123456789') where id=1;
+select * from users where id=1;

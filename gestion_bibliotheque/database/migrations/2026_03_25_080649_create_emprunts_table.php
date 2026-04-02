@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('livre_id')->constrained()->onDelete('cascade');
 
+            $table->enum('statut', ['en_cours', 'retourné'])->default('en_cours');
+
             $table->dateTime('date_emprunt')->useCurrent();
             $table->dateTime('date_retour')->nullable();
 

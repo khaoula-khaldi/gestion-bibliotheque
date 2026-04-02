@@ -6,19 +6,19 @@ use App\Http\Controllers\LivreController;
 use App\Http\Controllers\AuteurController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\DashboardAdminController;
+use App\Http\Controllers\EmpruntController;
 
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::get('/dashboard', [DashboardController::class, 'index'])
    ->name('dashboard')
    ->middleware('auth');
+
 
 Route::middleware('auth')->group(function () {
     //profile
@@ -44,13 +44,25 @@ Route::middleware('auth')->group(function () {
     Route::put('/Auteurs/{id}', [AuteurController::class, 'update'])->name('Auteurs.update');
     Route::delete('/auteurs/{id}', [AuteurController::class, 'destroy'])->name('Auteurs.destroy');
 
+    //subscription
+    Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
+    Route::get('/subscriptions/create', [SubscriptionController::class, 'create'])->name('subscriptions.create');
+    Route::post('/subscriptions', [SubscriptionController::class, 'store'])->name('subscriptions.store');
 
+    //dashbord admin 
+    Route::get('/admin/dashboard', [DashboardAdminController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('admin.dashboard');
+
+    //emprunt
+    Route::get('/emprunts', [EmpruntController::class, 'index'])->name('emprunts.index');
+    Route::get('/emprunts/create', [EmpruntController::class, 'create'])->name('emprunts.create');
+    Route::post('/emprunts', [EmpruntController::class, 'store'])->name('emprunts.store');
+    Route::get('/emprunts/{emprunt}', [EmpruntController::class, 'show'])->name('emprunts.show');
+    Route::post('/emprunts/{id}/retour', [EmpruntController::class, 'retour'])->name('emprunts.retour');
+    Route::delete('/emprunts/{emprunt}', [EmpruntController::class, 'destroy'])->name('emprunts.destroy');
 });
 
-
-Route::patch('/users/{user}/toggle', [UserController::class, 'toggleActive'])
-    ->name('users.toggle')
-    ->middleware('auth');
 
 
 

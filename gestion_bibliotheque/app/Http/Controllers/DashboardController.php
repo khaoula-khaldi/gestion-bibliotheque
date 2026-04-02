@@ -1,7 +1,5 @@
 <?php
 
-// app/Http/Controllers/DashboardController.php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -11,10 +9,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // ghedi njib kol users
-        $users = User::all(); 
+        $user = auth()->user();
 
-        // n3tihom l view
-        return view('dashboard', compact('users'));
+        return view('dashboard', compact('user'));
     }
-}
+}  
