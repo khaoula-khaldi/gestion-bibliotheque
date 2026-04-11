@@ -14,7 +14,7 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    // Had la méthode dyal toggleStatus li darna qbila
+
     public function toggleStatus($id)
     {
         $user = User::findOrFail($id);
