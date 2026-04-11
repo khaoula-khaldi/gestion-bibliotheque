@@ -14,7 +14,11 @@ class Emprunt extends Model
         'livre_id',
         'date_emprunt',
         'date_retour',
+        'statut',
+        'prix',
     ];
+    
+
 
     //   User
     public function user()

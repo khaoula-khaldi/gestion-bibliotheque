@@ -7,6 +7,8 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Achat;
+use App\Models\Emprunt;
 
 class User extends Authenticatable
 {
@@ -22,7 +24,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_active',
     ];
+
+    
 
     /**
      * The attributes that should be hidden for serialization.
@@ -50,5 +55,25 @@ class User extends Authenticatable
     public function subscriptions()
     {
         return $this->hasMany(Subscription::class);
+    }
+    public function achats(){
+        return $this->hasMany(Achat::class);
+    }
+
+    public function emprunts(){
+        return $this->hasMany(Emprunt::class);
+    }
+
+    public function isAdmin(){
+        return $this->role === 'admin';
+    }
+
+
+    // Fonction est ce que abonnment active ou non 
+    public function isSubscribed() {
+        return $this->subscriptions()
+                    ->where('statut', 'actif')
+                    ->where('date_fin', '>=', now())
+                    ->exists();
     }
 }

@@ -15,14 +15,20 @@ class Livre extends Model
         'annee',
         'type',
         'description',
-        'prix',
+        'prix_achat',
+        'prix_emprunt',
         'disponible',
         'quantite', 
-        'auteur_id'       
+        'auteur_id',
+        'image'       
     ];
 
     public function auteur()
     {
         return $this->belongsTo(Auteur::class);
+    }
+
+    public function achats() {
+        return $this->hasMany(Achat::class);
     }
 }
