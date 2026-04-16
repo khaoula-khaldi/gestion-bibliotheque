@@ -12,7 +12,7 @@ class LivreController extends Controller
     // Afficher tous les livres
     public function index(){
 
-        $livres = Livre::paginate();
+        $livres = Livre::all();
         return view('livres.index', compact('livres'));
     }
 
