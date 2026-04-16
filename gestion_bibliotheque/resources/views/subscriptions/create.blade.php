@@ -19,9 +19,9 @@
             <!-- Select simple -->
             <div>
                 <label for="type" class="block text-sm font-medium text-gray-700 mb-2">Choisir un forfait</label>
-                <select name="type" id="type" class="w-full p-3 border border-gray-300 rounded-md bg-white text-gray-900 focus:ring-1 focus:ring-black focus:border-black outline-none transition-all">
-                    <option value="mensuel">Mensuel — 9.99 € / mois</option>
-                    <option value="annuel">Annuel — 89.99 € / an</option>
+                <select name="type" id="type" class="w-full p-3 border border-gray-300 rounded-md bg-white text-gray-900  ">
+                    <option value="mensuel">Mensuel — 9.99 Dh / mois</option>
+                    <option value="annuel">Annuel — 89.99 Dh / an</option>
                 </select>
             </div>
 
@@ -31,13 +31,13 @@
             </p>
 
             <!-- Bouton simple -->
-            <button type="submit" class="w-full bg-black text-white py-3 font-semibold hover:bg-gray-800 transition">
+            <button type="submit" class="w-full bg-black text-white py-3 font-semibold">
                 Confirmer
             </button>
 
             <!-- Retour -->
             <div class="text-center">
-                <a href="{{ route('dashboard') }}" class="text-sm text-gray-400 hover:text-black">Annuler</a>
+                <a href="{{ route('dashboard') }}" class="text-sm text-gray-400">Annuler</a>
             </div>
         </form>
 

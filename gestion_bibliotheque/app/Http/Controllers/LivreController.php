@@ -16,22 +16,42 @@ class LivreController extends Controller
         return view('livres.index', compact('livres'));
     }
 
-    public function catalogue(){
+    public function catalogue(Request $request) {
         $user = auth()->user();
+        
+        $hasActiveSub = $user->subscriptions()
+            ->where('statut', 'actif')
+            ->where('date_fin', '>=', now())
+            ->exists();
 
-  
-        $hasActiveSub = $user->subscriptions()->where('statut', 'actif')->where('date_fin', '>=', now())->exists();
+        $livresEmpruntesIds = \App\Models\Emprunt::where('user_id', $user->id)
+            ->whereIn('statut', ['en cours', 'en_cours', 'retard'])
+            ->pluck('livre_id')
+            ->toArray();
 
-        $livresEmpruntesIds = \App\Models\Emprunt::where('user_id', $user->id)->whereIn('statut', ['en cours', 'en_cours', 'retard']) ->pluck('livre_id') ->toArray();
+        $query = Livre::with('auteur')->where('quantite', '>', 0);
 
-        $livres = Livre::with('auteur')->where('quantite', '>', 0)->get()->map(function ($livre) use ($hasActiveSub) {
-                $prixBase = $livre->prix_emprunt ?? 0;
-                $livre->prix_final = $hasActiveSub ? ($prixBase * 0.5) : $prixBase;
-                return $livre;
+        if ($request->has('keyword') && !empty($request->keyword)) {
+            $keyword = $request->keyword;
+            $query->where(function($q) use ($keyword) {
+                $q->where('titre', 'like', "%{$keyword}%")
+                ->orWhere('isbn', 'like', "%{$keyword}%")
+                ->orWhereHas('auteur', function($queryAuteur) use ($keyword) {
+                    $queryAuteur->where('nom', 'like', "%{$keyword}%")
+                                ->orWhere('prenom', 'like', "%{$keyword}%");
+                });
             });
+        }
+
+        $livres = $query->get()->map(function ($livre) use ($hasActiveSub) {
+            $prixBase = $livre->prix_emprunt ?? 0;
+            $livre->prix_final = $hasActiveSub ? ($prixBase * 0.5) : $prixBase;
+            return $livre;
+        });
 
         return view('livres.catalogue', compact('livres', 'hasActiveSub', 'livresEmpruntesIds'));
     }
+
 
     public function create(){
         if(auth()->user()->role !== 'admin'){

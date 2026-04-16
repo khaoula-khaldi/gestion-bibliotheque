@@ -77,7 +77,10 @@ CREATE TABLE subscriptions (
     type ENUM('mensuel', 'annuel'),
     date_debut DATE,
     date_fin DATE,
-    st('Chraïbi', 'Driss', '1926-07-15', 'Fondateur de la littérature marocaine moderne d expression française.', NOW(), NOW()),
+);
+
+INSERT INTO auteurs (nom, prenom, date_naissance, biographie, created_at, updated_at) VALUES 
+('Chraïbi', 'Driss', '1926-07-15', 'Fondateur de la littérature marocaine moderne d expression française.', NOW(), NOW()),
 ('Ben Jelloun', 'Tahar', '1944-12-01', 'Poète et écrivain marocain de renommée internationale.', NOW(), NOW()),
 ('Camus', 'Albert', '1913-11-07', 'Philosophe et écrivain français, Prix Nobel.', NOW(), NOW()),
 ('Orwell', 'George', '1903-06-25', 'Célèbre pour ses œuvres dystopiques.', NOW(), NOW()),

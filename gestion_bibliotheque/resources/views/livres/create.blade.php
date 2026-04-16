@@ -41,21 +41,21 @@
 
             <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
                 
-                <!-- Titre (Full Width) -->
                 <div class="md:col-span-2">
                     <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">Titre complet</label>
                     <input type="text" name="titre" value="{{ old('titre') }}" placeholder="ex: L'Alchimiste" 
-                           class="w-full border-b-2 border-gray-100 focus:border-blue-500 p-2 outline-none transition font-bold text-lg text-gray-800 bg-transparent">
+                        class="w-full border-b-2 border-gray-200 focus:border-blue-500 p-2 outline-none transition font-bold text-lg text-gray-800 bg-transparent @error('titre') border-red-500 @enderror">
+                    @error('titre')
+                        <span class="text-red-500 text-[10px] font-bold mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
 
-                <!-- ISBN -->
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">Code ISBN</label>
                     <input type="text" name="isbn" value="{{ old('isbn') }}" placeholder="978-3-16..." 
-                           class="w-full border border-gray-200 p-3 rounded text-sm focus:ring-2 focus:ring-blue-100 outline-none">
+                        class="w-full border border-gray-200 p-3 rounded text-sm focus:ring-2 focus:ring-blue-100 outline-none">
                 </div>
 
-                <!-- Auteur -->
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">Auteur</label>
                     <select name="auteur_id" class="w-full border border-gray-200 p-3 rounded bg-white text-sm focus:ring-2 focus:ring-blue-100 outline-none">
@@ -66,35 +66,30 @@
                     </select>
                 </div>
 
-                <!-- Prix Achat -->
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">Prix d'Achat (DH)</label>
                     <input type="number" step="0.01" name="prix_achat" value="{{ old('prix_achat') }}" 
-                           class="w-full border border-gray-200 p-3 rounded text-sm focus:ring-2 focus:ring-blue-100 outline-none">
+                        class="w-full border border-gray-200 p-3 rounded text-sm focus:ring-2 focus:ring-blue-100 outline-none">
                 </div>
 
-                <!-- Prix Emprunt -->
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">Prix Emprunt (DH)</label>
                     <input type="number" step="0.01" name="prix_emprunt" value="{{ old('prix_emprunt') }}" 
-                           class="w-full border border-gray-200 p-3 rounded text-sm focus:ring-2 focus:ring-blue-100 outline-none font-bold text-blue-600">
+                        class="w-full border border-gray-200 p-3 rounded text-sm focus:ring-2 focus:ring-blue-100 outline-none font-bold text-black">
                 </div>
 
-                <!-- Quantité -->
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">Stock Initial</label>
                     <input type="number" name="quantite" value="{{ old('quantite') }}" 
-                           class="w-full border border-gray-200 p-3 rounded text-sm focus:ring-2 focus:ring-blue-100 outline-none">
+                        class="w-full border border-gray-200 p-3 rounded text-sm focus:ring-2 focus:ring-blue-100 outline-none">
                 </div>
 
-                <!-- Année de Publication -->
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">Année de Publication</label>
                     <input type="number" name="annee" value="{{ old('annee') }}" placeholder="ex: 2024" 
                         class="w-full border border-gray-200 p-3 rounded text-sm focus:ring-2 focus:ring-blue-100 outline-none">
                 </div>
 
-                <!-- Disponibilité -->
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">Disponibilité immédiate</label>
                     <select name="disponible" class="w-full border border-gray-200 p-3 rounded bg-white text-sm focus:ring-2 focus:ring-blue-100 outline-none">
@@ -103,30 +98,26 @@
                     </select>
                 </div>
 
-                <!-- Type -->
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">Catégorie</label>
                     <select name="type" class="w-full border border-gray-200 p-3 rounded bg-white text-sm focus:ring-2 focus:ring-blue-100 outline-none">
-                        <option value="free">Free (Gratuit)</option>
-                        <option value="premium">Premium (Abonnement)</option>
+                        <option value="free" {{ old('type') == 'free' ? 'selected' : '' }}>Free (Gratuit)</option>
+                        <option value="premium" {{ old('type') == 'premium' ? 'selected' : '' }}>Premium (Abonnement)</option>
                     </select>
                 </div>
 
-                <!-- Image Upload -->
-                <div class="md:col-span-2 bg-slate-50 p-6 rounded-lg border border-dashed border-slate-200">
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4 text-center">Couverture du livre (JPG / PNG)</label>
+                <div class="md:col-span-2 bg-slate-50 p-6 rounded-lg border border-dashed border-slate-200 text-center">
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4">Couverture du livre (JPG / PNG)</label>
                     <input type="file" name="image" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-6 file:rounded file:border-0 file:text-xs file:font-black file:bg-slate-900 file:text-white hover:file:bg-slate-800 cursor-pointer">
                 </div>
 
-                <!-- Description -->
                 <div class="md:col-span-2">
                     <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">Description / Résumé</label>
                     <textarea name="description" rows="4" placeholder="Résumé de l'ouvrage..." 
-                              class="w-full border border-gray-200 p-3 rounded text-sm italic focus:ring-2 focus:ring-blue-100 outline-none">{{ old('description') }}</textarea>
+                            class="w-full border border-gray-200 p-3 rounded text-sm italic focus:ring-2 focus:ring-blue-100 outline-none">{{ old('description') }}</textarea>
                 </div>
             </div>
 
-            <!-- Footer Actions -->
             <div class="bg-gray-50 px-8 py-6 border-t border-gray-100 flex justify-end gap-4">
                 <a href="{{ route('livres.index') }}" class="px-8 py-3 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-gray-900 transition flex items-center">
                     Annuler

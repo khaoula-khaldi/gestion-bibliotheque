@@ -73,7 +73,7 @@
                                 </div>
                                 <div>
                                     <h3 class="font-bold text-slate-900">{{ $emprunt->livre->titre }}</h3>
-                                    <p class="text-xs text-slate-400 font-medium">Prix payé : {{ number_format($emprunt->prix, 2) }} DH</p>
+                        
                                 </div>
                             </div>
 
