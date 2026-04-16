@@ -7,7 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-white"> <div class="flex min-h-screen">
+<body class="bg-white">
+     <div class="flex min-h-screen">
         <aside class="w-64 bg-slate-900 text-white  md:flex flex-col  ">
             <div class="p-8 text-center border-b border-slate-800">
                 <h2 class="text-xl font-bold text-blue-400  tracking-wider">BiblioTech</h2>
@@ -47,7 +48,7 @@
                     <h1 class="text-2xl font-bold text-slate-900">Bonjour, {{  auth()->user()->name }}</h1>
                     <p class="text-slate-500 text-sm mt-1">Tableau de bord BiblioTech.</p>
                 </div>
-                
+
                     <div class="mt-8">
                         @if(!$hasActiveSub)
                             <a href="{{ route('subscriptions.create') }}" class="border border-slate-900 px-6 py-2 text-[10px] font-black">

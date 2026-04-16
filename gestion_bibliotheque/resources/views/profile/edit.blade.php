@@ -47,41 +47,34 @@
                 </div>
             </aside>
         @else
-            <!-- SIDEBAR USER -->
-        <aside class="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col sticky top-0 h-screen">
+        <!-- user -->
+        <aside class="w-64 bg-slate-900 text-white  md:flex flex-col  ">
             <div class="p-8 text-center border-b border-slate-800">
-                <h2 class="text-xl font-bold text-blue-400 uppercase tracking-wider">BiblioTech</h2>
+                <h2 class="text-xl font-bold text-blue-400  tracking-wider">BiblioTech</h2>
             </div>
             <nav class="flex-1 px-4 space-y-1 mt-6">
-                <a href="{{ route('dashboard') }}" class="block px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white font-bold text-xs uppercase tracking-widest">
+                <a href="{{ route('dashboard') }}" class="block px-4 py-3 rounded-lg bg-slate-800 text-white  text-xs ">
                     Accueil
                 </a>
-                <a href="{{ route('livres.catalogue') }}" class="block px-4 py-3 rounded-xl text-gray-400 hover:bg-slate-800 hover:text-white font-bold text-sm uppercase tracking-wide">
+                <a href="{{ route('livres.catalogue') }}" class="block px-4 py-3 text-slate-400 hover:text-white  text-xs ">
                     Catalogue
                 </a>
-                <div class="h-[1px] bg-slate-800 my-4 mx-4"></div>
+                
                 <div class="h-[1px] bg-slate-800 my-4 mx-4"></div>
 
                 @if(auth()->user()->role == 'admin')
-                    <a href="{{ route('emprunts.index') }}" class="block px-4 py-3 rounded-xl text-gray-400 hover:bg-slate-800 hover:text-white font-bold text-sm uppercase tracking-wide">
-                        Gestion Emprunts
-                    </a>
+                    <a href="{{ route('emprunts.index') }}" class="block px-4 py-3 text-slate-400 hover:text-white  text-xs ">Gestion Emprunts</a>
                 @else
-                    <a href="{{ route('emprunts.mes_emprunts') }}" class="block px-4 py-3 rounded-xl text-gray-400 hover:bg-slate-800 hover:text-white font-bold text-sm uppercase tracking-wide">
-                        Mes Emprunts
-                    </a>
+                    <a href="{{ route('emprunts.mes_emprunts') }}" class="block px-4 py-3 text-slate-400 hover:text-white  text-xs ">Mes Emprunts</a>
                 @endif
 
-                <a href="{{ route('achats.mes_achats') }}" class="block px-4 py-3 rounded-xl text-gray-400 hover:bg-slate-800 hover:text-white font-bold text-sm uppercase tracking-wide">
-                        Mes Achats
-                </a>
-
-                <a href="/profile" class="block px-4 py-3 rounded-xl text-gray-400 hover:bg-slate-800 hover:text-white font-bold text-sm uppercase tracking-wide">Mon Profil</a>
+                <a href="{{ route('achats.mes_achats') }}" class="block px-4 py-3 text-slate-400 hover:text-white  text-xs ">Mes Achats</a>
+                <a href="/profile" class="block px-4 py-3 text-slate-400 hover:text-white  text-xs ">Mon Profil</a>
             </nav>
-                        <div class="p-4 border-t border-slate-700">
+            <div class="p-4 border-t border-slate-700">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="w-full text-left p-3 text-red-400 hover:bg-red-500/10 rounded">Déconnexion</button>
+                    <button type="submit" class="w-full text-left p-3 text-red-400 text-xs  ">Déconnexion</button>
                 </form>
             </div>
         </aside>

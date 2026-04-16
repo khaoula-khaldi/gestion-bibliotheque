@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catalogue | BiblioTech</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-50">
-
+<body class="bg-slate-200">
     <div class="flex min-h-screen">
         <aside class="w-64 bg-slate-900 text-white  md:flex flex-col  ">
             <div class="p-8 text-center border-b border-slate-800">
@@ -40,7 +38,7 @@
                 </form>
             </div>
         </aside>
-
+     
         <main class="flex-1 p-6 md:p-10">
             <div class="max-w-7xl mx-auto">
                 

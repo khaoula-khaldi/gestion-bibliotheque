@@ -40,44 +40,35 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT -->
+   
         <main class="flex-1 p-6 md:p-12">
             <div class="max-w-4xl mx-auto">
-                
-                <!-- Header Simple -->
+
                 <div class="mb-10 flex justify-between items-center">
                     <div>
-                        <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Mes Livres Achetés</h1>
+                        <h1 class="text-2xl font-bold text-black">Mes Livres Achetés</h1>
                         <p class="text-slate-500 text-sm mt-1">L'historique complet de vos achats.</p>
                     </div>
-                    <div class="bg-white px-4 py-2 rounded-lg border border-gray-200 shadow-sm">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block leading-none">Total</span>
+                    <div class="bg-white px-4 py-2 rborder border-gray-200 shadow-sm">
+                        <span class="text-[10px] font-bold text-slate-400">Total</span>
                         <span class="text-xl font-black text-blue-600">{{ $achats->count() }}</span>
                     </div>
                 </div>
 
-                <!-- List des achats -->
                 <div class="grid gap-4">
                     @forelse($achats as $achat)
-                        <div class="bg-white rounded-xl border border-gray-200 p-5 flex items-center justify-between hover:border-blue-300 transition-colors shadow-sm">
-                            
-                            <!-- Info Livre -->
+                        <div class="bg-white rounded-xl border border-gray-200 p-5 flex items-center justify-between ">
+
                             <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-400">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                    </svg>
-                                </div>
-                                <div>
+                                
                                     <h3 class="font-bold text-slate-800">{{ $achat->livre->titre }}</h3>
-                                    <p class="text-[11px] text-slate-400 uppercase font-bold tracking-tight">Payé le {{ $achat->created_at->format('d/m/Y') }}</p>
-                                </div>
+                                    <p class="text-[11px] text-slate-400  font-bold ">Payé le {{ $achat->created_at->format('d/m/Y') }}</p>
+                           
                             </div>
 
-                            <!-- Prix & Badge -->
                             <div class="text-right">
                                 <span class="block text-lg font-black text-slate-900">{{ number_format($achat->prix, 2) }} DH</span>
-                                <span class="inline-block px-2 py-0.5 bg-green-100 text-green-700 text-[10px] font-bold rounded uppercase">Confirmé</span>
+                                <span class="px-2 py-0.5 bg-green-100 t text-[10px] font-bold rounded ">Confirmé</span>
                             </div>
                         </div>
                     @empty
