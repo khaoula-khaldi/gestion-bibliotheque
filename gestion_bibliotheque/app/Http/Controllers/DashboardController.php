@@ -12,7 +12,7 @@ class DashboardController extends Controller{
     public function index(){
         $user = auth()->user();
 
-        $hasActiveSub = \App\Models\Subscription::where('user_id', $user->id)
+        $hasActiveSub = Subscription::where('user_id', $user->id)
                                                 ->where('statut', 'actif')
                                                 ->where('date_fin', '>', now())
                                                 ->exists();
@@ -23,11 +23,9 @@ class DashboardController extends Controller{
             $livres = Livre::where('type', 'free')->latest()->take(6)->get();
         }
 
-        $achats = $user->achats()->with('livre')->get();
-        $emprunts = $user->emprunts()->with('livre')->get();
+        // $achats = $user->achats()->with('livre')->get();
+        // $emprunts = $user->emprunts()->with('livre')->get();
 
-        return view('dashboard', compact(
-            'livres', 'achats', 'emprunts', 'hasActiveSub'
-        ));
+        return view('dashboard', compact('livres','hasActiveSub'));
     }
 }

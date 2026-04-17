@@ -17,7 +17,7 @@ class SubscriptionController extends Controller
         if (auth()->user()->role !== 'admin') {
             abort(403, 'Action non autorisée.'); 
         }
-        // On récupère les abonnements avec les infos des utilisateurs
+        
         $subscriptions = Subscription::with('user')->latest()->get();
         
         return view('subscriptions.index', compact('subscriptions'));
@@ -30,7 +30,6 @@ class SubscriptionController extends Controller
     {
         $user = auth()->user();
         
-        // Vérifier si l'utilisateur a déjà un abonnement actif pour éviter les doublons
         $activeSub = Subscription::where('user_id', $user->id)
                                  ->where('statut', 'actif')
                                  ->first();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Livre;
 use App\Models\Auteur;
+use App\Models\Emprunt;
 use Illuminate\Support\Facades\Storage;
 
 class LivreController extends Controller
@@ -24,8 +25,8 @@ class LivreController extends Controller
             ->where('date_fin', '>=', now())
             ->exists();
 
-        $livresEmpruntesIds = \App\Models\Emprunt::where('user_id', $user->id)
-            ->whereIn('statut', ['en cours', 'en_cours', 'retard'])
+        $livresEmpruntesIds = Emprunt::where('user_id', $user->id)
+            ->whereIn('statut', ['en_cours', 'retard'])
             ->pluck('livre_id')
             ->toArray();
 

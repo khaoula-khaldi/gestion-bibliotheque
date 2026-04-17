@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
 
-// Hna khass t-koun DashboardAdminController (mashi AdminController)
 class DashboardAdminController extends Controller
 {
     public function index()
