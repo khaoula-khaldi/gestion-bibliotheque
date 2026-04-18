@@ -57,7 +57,6 @@
                             <tr>
                                 <th class="p-6">Lecteur</th>
                                 <th class="p-6">Ouvrage</th>
-                                <th class="p-6 text-center">Prix</th>
                                 <th class="p-6 text-center">Statut</th>
                                 <th class="p-6 text-right">Action</th>
                             </tr>
@@ -72,9 +71,7 @@
                                 <td class="p-6">
                                     <p class="text-xs font-medium border-l-2 border-black pl-3 italic">{{ $emprunt->livre->titre }}</p>
                                 </td>
-                                <td class="p-6 text-center">
-                                    <p class="font-bold text-sm">{{ number_format($emprunt->prix, 2) }} DH</p>
-                                </td>
+
                                 <td class="p-6 text-center">
                                     @if($emprunt->statut == 'en_cours' || $emprunt->statut == 'en cours')
                                         <span class="px-3 py-1 text-[10px] font-bold  bg-orange-50 text-orange-600 border border-orange-100">

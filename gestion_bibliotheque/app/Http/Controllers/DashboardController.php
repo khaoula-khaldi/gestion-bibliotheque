@@ -23,9 +23,11 @@ class DashboardController extends Controller{
             $livres = Livre::where('type', 'free')->latest()->take(6)->get();
         }
 
-        // $achats = $user->achats()->with('livre')->get();
-        // $emprunts = $user->emprunts()->with('livre')->get();
+        $achats = $user->achats()->with('livre')->get();
+        $emprunts = $user->emprunts()->with('livre')->get();
 
-        return view('dashboard', compact('livres','hasActiveSub'));
+        return view('dashboard', compact(
+            'livres', 'achats', 'emprunts', 'hasActiveSub'
+        ));
     }
 }
