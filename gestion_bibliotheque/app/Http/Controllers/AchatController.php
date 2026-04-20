@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 class AchatController extends Controller
 {
     //  affiche tout les achats 
-    public function index(){
+    public function index() {
         $achats = Achat::with(['user', 'livre'])->get();
-        return view('achats.index', compact('achats'));
+        return view('achats.index', compact('achats')); 
     }
 
     public function mesAchats() {

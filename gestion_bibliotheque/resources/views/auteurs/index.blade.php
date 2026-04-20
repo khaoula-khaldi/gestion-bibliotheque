@@ -1,132 +1,80 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auteurs | BiblioTech</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+@extends('layouts.app')
 
-</head>
-<body class="bg-gray-50 text-slate-900 font-sans">
+@section('title', 'Auteurs | BiblioTech')
 
-    <div class="flex flex-col md:flex-row min-h-screen">
-        
-        <aside class="w-full md:w-64 bg-slate-800 text-white flex flex-col md:h-screen md:sticky md:top-0 z-50">
-            <div class="p-5 md:p-6 border-b border-slate-700 flex justify-between items-center md:block">
-                <h2 class="text-xl font-bold tracking-tight text-blue-400">BiblioTech</h2>
-                <div class="md:hidden">
-                    <span class="text-[9px] bg-slate-700 px-2 py-1 rounded uppercase font-bold text-slate-300">Emprunts</span>
-                </div>
-            </div>
+@section('content')
+<div class="max-w-5xl mx-auto">
+    
+    @if(session('success'))
+        <div class="mb-6 p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 text-xs font-bold uppercase tracking-wider">
+            {{ session('success') }}
+        </div>
+    @endif
 
-            <nav class="flex-1 p-2 md:p-4 flex flex-row md:flex-col overflow-x-auto no-scrollbar items-center md:items-stretch gap-1 md:gap-2">
-                <a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('dashboard') }}" 
-                   class="whitespace-nowrap px-4 py-2 md:p-3 hover:bg-slate-700 rounded text-gray-300 text-xs md:text-sm transition-colors">
-                    Dashboard
-                </a>
-                
-                <a href="{{ route('livres.index') }}" 
-                   class="whitespace-nowrap px-4 py-2 md:p-3 hover:bg-slate-700 rounded text-gray-300 text-xs md:text-sm">
-                    Catalogue
-                </a>
-                
-                @if(auth()->user()->role === 'admin')
-                    <a href="{{ route('users.index') }}" class="whitespace-nowrap px-4 py-2 md:p-3 hover:bg-slate-700 rounded text-gray-300 text-xs md:text-sm">Membres</a>
-                    
-                    <a href="{{ route('emprunts.index') }}" 
-                       class="whitespace-nowrap px-4 py-2 md:p-3 hover:bg-slate-700 rounded text-gray-300 text-xs md:text-sm">
-                        Gestion Emprunts
-                    </a>
-
-                    <a href="{{ route('subscriptions.index') }}" class="whitespace-nowrap px-4 py-2 md:p-3 hover:bg-slate-700 rounded text-gray-300 text-xs md:text-sm">Abonnements</a>
-                    <a href="{{ route('auteurs.index') }}" class="whitespace-nowrap px-4 py-2 md:p-3 hover:bg-slate-700 rounded text-gray-300 text-xs md:text-sm">Auteurs</a>
-                    <a href="{{ route('achats.index') }}" class="whitespace-nowrap px-4 py-2 md:p-3 hover:bg-slate-700 rounded text-gray-300 text-xs md:text-sm">Ventes</a>
-                @endif
-                
-                <a href="/profile" class="whitespace-nowrap px-4 py-2 md:p-3 hover:bg-slate-700 rounded text-gray-300 text-xs md:text-sm">Profil</a>
-            </nav>
-
-            <div class="p-4 border-t border-slate-700 hidden md:block">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="w-full text-left p-3 text-red-400 hover:bg-red-500/10 rounded text-xs font-bold uppercase tracking-wider">
-                        Déconnexion
-                    </button>
-                </form>
-            </div>
-        </aside>
-        <main class="flex-1 p-4 md:p-10 bg-white">
-            <div class="max-w-5xl mx-auto">
-                
-                @if(session('success'))
-                    <div class="mb-8 p-4 bg-white border-2 border-black text-[10px] font-black uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 border-b-2 border-black pb-6 gap-4">
-                    <div>
-                        <h1 class="text-3xl font-extrabold tracking-tighter uppercase text-black">Gestion des Auteurs</h1>
-                        <p class="text-[11px] text-gray-500 font-bold tracking-[3px] mt-1 uppercase">Base de données des auteurs</p>
-                    </div>
-                    <a href="{{ route('auteurs.create') }}" 
-                       class="w-full sm:w-auto text-center border-2 border-black bg-black text-white px-6 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 shadow-lg">
-                        + Ajouter
-                    </a>
-                </div>
-
-                <div class="bg-white border border-gray-200 rounded-sm overflow-hidden shadow-sm">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left min-w-[600px]">
-                            <thead class="bg-gray-50 border-b-2 border-gray-100">
-                                <tr class="text-[10px] font-black text-gray-400 uppercase tracking-[2px]">
-                                    <th class="p-6">Nom de l'Auteur</th>
-                                    <th class="p-6">Date de Naissance</th>
-                                    <th class="p-6 text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100">
-                                @forelse($auteurs as $auteur)
-                                <tr class="hover:bg-gray-50/50 transition-colors">
-                                    <td class="p-6 text-sm font-bold text-black uppercase tracking-tight">
-                                        {{ $auteur->nom }} {{ $auteur->prenom }}
-                                    </td>
-                                    <td class="p-6 text-xs font-medium text-gray-500">
-                                        {{ $auteur->date_naissance ? \Carbon\Carbon::parse($auteur->date_naissance)->format('d/m/Y') : '—' }}
-                                    </td>
-                                    <td class="p-6 text-right">
-                                        <div class="flex justify-end gap-5 text-[10px] font-black uppercase tracking-tighter">
-                                            <a href="{{ route('auteurs.edit', $auteur->id) }}" class="text-blue-600 hover:underline">Modifier</a>
-                                            <form action="{{ route('auteurs.destroy', $auteur->id) }}" method="POST" class="inline">
-                                                @csrf @method('DELETE')
-                                                <button type="submit" onclick="return confirm('Confirmer la suppression ?')" class="text-red-600 hover:underline">Supprimer</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="3" class="p-20 text-center">
-                                        <p class="text-gray-300 font-black tracking-[5px] text-[10px] uppercase italic">
-                                            Aucun auteur trouvé dans l'index
-                                        </p>
-                                    </td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="mt-16 text-center border-t border-gray-100 pt-8">
-                    <p class="text-[9px] text-gray-400 font-black tracking-[5px] uppercase">
-                        BiblioTech Database Protocol
-                    </p>
-                </div>
-
-            </div>
-        </main>
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-6 border-b border-slate-200 gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-800 uppercase italic">Gestion des Auteurs</h1>
+            <p class="text-[10px] text-slate-400 font-bold tracking-widest mt-1 uppercase">Répertoire des écrivains et contributeurs</p>
+        </div>
+        <a href="{{ route('auteurs.create') }}" 
+           class="bg-slate-900 text-white px-6 py-2 text-[10px] font-black uppercase tracking-widest rounded hover:bg-slate-800 transition shadow-sm">
+            + Ajouter un auteur
+        </a>
     </div>
 
-</body>
-</html>
+    <div class="bg-white border border-slate-200 rounded shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead class="bg-slate-50 border-b border-slate-200">
+                    <tr class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                        <th class="px-6 py-4">Nom de l'Auteur</th>
+                        <th class="px-6 py-4">Date de Naissance</th>
+                        <th class="px-6 py-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @forelse($auteurs as $auteur)
+                    <tr class="hover:bg-slate-50/50 transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-semibold text-slate-700 uppercase tracking-tight">
+                                {{ $auteur->nom }} {{ $auteur->prenom }}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="text-xs text-slate-500 font-medium">
+                                {{ $auteur->date_naissance ? \Carbon\Carbon::parse($auteur->date_naissance)->format('d/m/Y') : '—' }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex justify-end gap-4 text-[10px] font-bold uppercase tracking-tighter">
+                                <a href="{{ route('auteurs.edit', $auteur->id) }}" class="text-blue-600 hover:underline">Modifier</a>
+                                
+                                <form action="{{ route('auteurs.destroy', $auteur->id) }}" method="POST" class="inline" onsubmit="return confirm('Supprimer cet auteur ?')">
+                                    @csrf 
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:underline uppercase">Supprimer</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="3" class="py-20 text-center">
+                            <p class="text-slate-300 font-bold tracking-widest text-[10px] uppercase italic">
+                                Aucun auteur répertorié
+                            </p>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-12 text-center">
+        <p class="text-[9px] text-slate-300 font-bold tracking-[5px] uppercase">
+            BiblioTech • Database System
+        </p>
+    </div>
+</div>
+@endsection

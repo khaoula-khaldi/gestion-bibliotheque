@@ -1,71 +1,78 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détails | {{ $livre->titre }}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 text-gray-800">
+@extends('layouts.app')
 
-    <div class="container mx-auto p-6 max-w-4xl min-h-screen flex items-center justify-center">
-        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col md:flex-row w-full">
+@section('title', 'Détails | ' . $livre->titre)
 
+@section('content')
+<div class="max-w-5xl mx-auto">
+    
+    <a href="{{ route('livres.index') }}" class="inline-flex items-center text-[10px] font-black uppercase tracking-[2px] text-slate-400 hover:text-blue-600 mb-8 transition">
+        ← Retour au catalogue
+    </a>
 
-            <div class="md:w-1/3 bg-gray-100 flex items-center justify-center border-b md:border-b-0 md:border-r border-gray-200">
-                @if($livre->image)
-                    <img src="{{ asset('storage/' . $livre->image) }}" class="w-full h-full ">
-                @else
-                    <div class="p-20 text-xs font-bold  text-center">
-                        Aucune Image <br> Disponible
-                    </div>
-                @endif
+    <div class="bg-white border border-slate-200 rounded-sm overflow-hidden flex flex-col md:flex-row shadow-sm">
+        
+        <div class="md:w-1/3 bg-slate-50 flex items-center justify-center border-b md:border-b-0 md:border-r border-slate-200 p-6">
+            @if($livre->image)
+                <img src="{{ asset('storage/' . $livre->image) }}" class="w-full h-auto rounded-sm shadow-md">
+            @else
+                <div class="py-20 text-[10px] font-black text-slate-300 text-center uppercase tracking-widest">
+                    Aucun visuel <br> disponible
+                </div>
+            @endif
+        </div>
+
+        <div class="md:w-2/3 p-10">
+            <div class="mb-6">
+                <span class="text-[9px] font-black bg-blue-600 text-white px-3 py-1 uppercase tracking-widest">
+                    {{ $livre->type }}
+                </span>
             </div>
 
-            <div class="md:w-2/3 p-10">
-                <div class="mb-6">
-                    <span class="text-[10px] font-black bg-blue-50 text-blue-600 px-3 py-1  ">
-                        {{ $livre->type }}
-                    </span>
+            <h1 class="text-4xl font-black text-slate-900 mb-2 leading-tight uppercase">{{ $livre->titre }}</h1>
+            <p class="text-lg text-slate-400 font-bold mb-10">Par : <span class="text-blue-600 uppercase">{{ $livre->auteur->nom }}</span></p>
+
+            <div class="grid grid-cols-2 gap-y-8 gap-x-4 mb-10 border-y border-slate-50 py-8">
+                <div>
+                    <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Prix d'achat</p>
+                    <p class="text-2xl font-black text-slate-900">{{ number_format($livre->prix_achat, 2) }} <span class="text-xs">DH</span></p>
                 </div>
-
-                <h1 class="text-4xl font-black text-gray-900 mb-2 ">{{ $livre->titre }}</h1>
-                <p class="text-lg text-gray-500 font-medium mb-8">Par : <span class="text-blue-600 ">{{ $livre->auteur->nom }}</span></p>
-
-          
-                <div class="grid grid-cols-2 gap-6 mb-10">
-                        <p class="text-[10px]  font-bold ">Prix d'achat</p>
-                        <p class="text-xl text-gray-900">{{ $livre->prix_achat }} DH</p>
-                        <p class="text-[10px]  font-bold ">Prix d'emprunt</p>
-                        <p class="text-xl text-gray-900">{{ $livre->prix_emprunt }} DH</p>
-                        <p class="text-[10px]  font-bold ">Disponibilité</p>
-                        <p class="text-xl">
-                            {{ $livre->quantite }} Unités
-                        </p>
+                <div>
+                    <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Prix d'emprunt</p>
+                    <p class="text-2xl font-black text-slate-900">{{ number_format($livre->prix_emprunt, 2) }} <span class="text-xs">DH</span></p>
                 </div>
-
-                <div class="mb-10">
-                    <h3 class="text-xs  mb-3 ">Description</h3>
-                    <p class="text-gray-600   ">
-                        {{ $livre->description ?? 'Aucune description disponible pour cet ouvrage.' }}
+                <div>
+                    <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Disponibilité</p>
+                    <p class="text-xl font-bold {{ $livre->quantite > 0 ? 'text-emerald-600' : 'text-red-500' }}">
+                        {{ $livre->quantite > 0 ? $livre->quantite . ' Unités' : 'Rupture de stock' }}
                     </p>
                 </div>
-
-                <!-- Bottonat Actions (Kteba claires) -->
-                <div class="flex gap-4 border-t border-gray-100 pt-8">
-                    <a href="{{ route('livres.index') }}" class="px-6 py-3 border border-gray-300 text-gray-600 rounded font-bold text-xs ">
-                        Retour au catalogue
-                    </a>
-                    
-                    @if(auth()->user()->role === 'admin')
-                        <a href="{{ route('livres.edit', $livre->id) }}" class="px-6 py-3 bg-slate-900 text-white rounded font-bold text-xs ">
-                            Modifier les infos
-                        </a>
-                    @endif
+                <div>
+                    <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Identifiant</p>
+                    <p class="text-sm font-bold text-slate-700">ISBN: {{ $livre->isbn }}</p>
                 </div>
             </div>
+
+            <div class="mb-10">
+                <h3 class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-4">Description de l'ouvrage</h3>
+                <p class="text-slate-600 leading-relaxed text-sm">
+                    {{ $livre->description ?? 'Aucune description disponible pour cet ouvrage.' }}
+                </p>
+            </div>
+
+            @if(auth()->user()->role === 'admin')
+                <div class="flex gap-4 pt-6 border-t border-slate-100">
+                    <a href="{{ route('livres.edit', $livre->id) }}" class="bg-slate-900 text-white px-8 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 transition">
+                        Modifier les informations
+                    </a>
+                    <form action="{{ route('livres.destroy', $livre->id) }}" method="POST" onsubmit="return confirm('Sûr ?')">
+                        @csrf @method('DELETE')
+                        <button type="submit" class="border border-red-200 text-red-500 px-8 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-red-50 transition">
+                            Supprimer
+                        </button>
+                    </form>
+                </div>
+            @endif
         </div>
     </div>
-
-</body>
-</html>
+</div>
+@endsection
