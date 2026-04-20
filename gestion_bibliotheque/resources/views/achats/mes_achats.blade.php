@@ -1,87 +1,71 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mes Achats | BiblioTech</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body class="bg-gray-50">
-    <div class="flex min-h-screen">
-        <aside class="w-64 bg-slate-900 text-white  md:flex flex-col  ">
-            <div class="p-8 text-center border-b border-slate-800">
-                <h2 class="text-xl font-bold text-blue-400  tracking-wider">BiblioTech</h2>
+@extends('layouts.app')
+
+@section('title', 'Mes Achats')
+
+@section('content')
+    <div class="max-w-4xl mx-auto">
+
+        <div class="mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-100 pb-8">
+            <div>
+                <h1 class="text-3xl font-black text-slate-900 tracking-tight">Mes Livres Achetés</h1>
+                <p class="text-slate-500 text-sm mt-1 font-medium">L'historique complet de vos acquisitions.</p>
             </div>
-            <nav class="flex-1 px-4 space-y-1 mt-6">
-                <a href="{{ route('dashboard') }}" class="block px-4 py-3 rounded-lg bg-slate-800 text-white  text-xs ">
-                    Accueil
-                </a>
-                <a href="{{ route('livres.catalogue') }}" class="block px-4 py-3 text-slate-400 hover:text-white  text-xs ">
-                    Catalogue
-                </a>
-                
-                <div class="h-[1px] bg-slate-800 my-4 mx-4"></div>
-
-                @if(auth()->user()->role == 'admin')
-                    <a href="{{ route('emprunts.index') }}" class="block px-4 py-3 text-slate-400 hover:text-white  text-xs ">Gestion Emprunts</a>
-                @else
-                    <a href="{{ route('emprunts.mes_emprunts') }}" class="block px-4 py-3 text-slate-400 hover:text-white  text-xs ">Mes Emprunts</a>
-                @endif
-
-                <a href="{{ route('achats.mes_achats') }}" class="block px-4 py-3 text-slate-400 hover:text-white  text-xs ">Mes Achats</a>
-                <a href="/profile" class="block px-4 py-3 text-slate-400 hover:text-white  text-xs ">Mon Profil</a>
-            </nav>
-            <div class="p-4 border-t border-slate-700">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="w-full text-left p-3 text-red-400 text-xs  ">Déconnexion</button>
-                </form>
+            
+            <div class="bg-white px-6 py-3 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+                <div class="flex flex-col">
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Collection</span>
+                    <span class="text-2xl font-black text-blue-600 leading-none">{{ $achats->count() }}</span>
+                </div>
             </div>
-        </aside>
+        </div>
 
-   
-        <main class="flex-1 p-6 md:p-12">
-            <div class="max-w-4xl mx-auto">
+        <div class="grid gap-4">
+            @forelse($achats as $achat)
+                <div class="bg-white rounded-2xl border border-slate-100 p-6 flex flex-col md:flex-row items-center justify-between hover:shadow-md transition group shadow-sm">
 
-                <div class="mb-10 flex justify-between items-center">
-                    <div>
-                        <h1 class="text-2xl font-bold text-black">Mes Livres Achetés</h1>
-                        <p class="text-slate-500 text-sm mt-1">L'historique complet de vos achats.</p>
+                    <div class="flex items-center gap-5 w-full md:w-auto">
+                        <div class="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-500 transition">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                            </svg>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-bold text-slate-800 group-hover:text-blue-600 transition">{{ $achat->livre->titre }}</h3>
+                            <p class="text-[11px] text-slate-400 font-bold mt-0.5 tracking-wide">
+                                ACHETÉ LE {{ $achat->created_at->format('d/m/Y') }}
+                            </p>
+                        </div>
                     </div>
-                    <div class="bg-white px-4 py-2 rborder border-gray-200 shadow-sm">
-                        <span class="text-[10px] font-bold text-slate-400">Total</span>
-                        <span class="text-xl font-black text-blue-600">{{ $achats->count() }}</span>
+
+                    <div class="flex items-center justify-between md:justify-end w-full md:w-auto mt-4 md:mt-0 gap-8 border-t md:border-0 pt-4 md:pt-0 border-slate-50">
+                        <div class="text-left md:text-right">
+                            <span class="block text-lg font-black text-slate-900">{{ number_format($achat->prix, 2) }} DH</span>
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-widest rounded-lg border border-emerald-100">
+                                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+                                Payé
+                            </span>
+                        </div>
+                        
+                        <button class="p-2 text-slate-300 hover:text-slate-600 transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path></svg>
+                        </button>
                     </div>
                 </div>
-
-                <div class="grid gap-4">
-                    @forelse($achats as $achat)
-                        <div class="bg-white rounded-xl border border-gray-200 p-5 flex items-center justify-between ">
-
-                            <div class="flex items-center gap-4">
-                                
-                                    <h3 class="font-bold text-slate-800">{{ $achat->livre->titre }}</h3>
-                                    <p class="text-[11px] text-slate-400  font-bold ">Payé le {{ $achat->created_at->format('d/m/Y') }}</p>
-                           
-                            </div>
-
-                            <div class="text-right">
-                                <span class="block text-lg font-black text-slate-900">{{ number_format($achat->prix, 2) }} DH</span>
-                                <span class="px-2 py-0.5 bg-green-100 t text-[10px] font-bold rounded ">Confirmé</span>
-                            </div>
-                        </div>
-                    @empty
-                        <!-- Centralized Empty State -->
-                        <div class="py-20 text-center bg-white rounded-2xl border-2 border-dashed border-gray-200">
-                            <p class="text-gray-400 font-medium mb-4">Vous n'avez encore rien acheté.</p>
-                            <a href="{{ route('livres.catalogue') }}" class="text-blue-600 font-bold hover:underline text-sm uppercase">Découvrir le catalogue</a>
-                        </div>
-                    @endforelse
+            @empty
+                <div class="py-24 text-center bg-white rounded-[2.5rem] border-2 border-dashed border-slate-100">
+                    <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-200">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-black text-slate-900 uppercase tracking-tight">Votre panier est vide</h2>
+                    <p class="text-slate-500 text-sm mb-8 mt-2">Vous n'avez pas encore fait d'achats définitifs.</p>
+                    <a href="{{ route('livres.catalogue') }}" class="bg-slate-900 text-white px-10 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[2px] hover:bg-blue-600 transition shadow-xl shadow-slate-200">
+                        Parcourir le catalogue
+                    </a>
                 </div>
-
-            </div>
-        </main>
+            @endforelse
+        </div>
     </div>
-</body>
-</html>
+@endsection
